@@ -3,23 +3,31 @@ import { SelectionResult } from '../types';
 
 export async function checkSelection(email: string): Promise<SelectionResult> {
   try {
-    // Simulate network delay for dramatic effect
+    const normalizedEmail = email.toLowerCase().trim();
+    console.log('🔍 Searching for email:', normalizedEmail);
+    
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     const { data, error } = await supabase
       .from('selected_students')
-      .select('id')
-      .eq('email', email.toLowerCase().trim())
-      .limit(1);
-
+      .select('*') // Select all fields temporarily for debugging
+      .eq('email', normalizedEmail);
+    
+    console.log('📊 Supabase response:', { data, error });
+    console.log('📝 Data length:', data?.length);
+    console.log('💾 Raw data:', JSON.stringify(data, null, 2));
+    
     if (error) {
-      console.error('Supabase error:', error);
+      console.error('❌ Supabase error:', error);
       return { selected: false, error: error.message };
     }
-
-    return { selected: data && data.length > 0 };
+    
+    const isSelected = data && data.length > 0;
+    console.log('✅ Final result - selected:', isSelected);
+    
+    return { selected: isSelected };
   } catch (error) {
-    console.error('Selection check error:', error);
+    console.error('💥 Selection check error:', error);
     return { selected: false, error: 'Network error occurred' };
   }
 }
