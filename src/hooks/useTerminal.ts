@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { TerminalState, CommandHistory } from '../types';
+import { TerminalState } from '../types';
 import { COMMANDS } from '../config/constants';
 import { checkSelection } from '../utils/checkSelection';
 
@@ -114,7 +114,7 @@ Keyboard shortcuts:
           y: window.innerHeight * 0.4 
         },
       });
-      addToHistory('', 'trying to check if you have good tastes in snack...');
+      addToHistory('', 'trying to check if you have good tastes in snacks...');
 
       // Actual database check
       const result = await checkSelection(email);

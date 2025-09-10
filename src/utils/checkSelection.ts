@@ -4,30 +4,24 @@ import { SelectionResult } from '../types';
 export async function checkSelection(email: string): Promise<SelectionResult> {
   try {
     const normalizedEmail = email.toLowerCase().trim();
-    console.log('🔍 Searching for email:', normalizedEmail);
     
     await new Promise(resolve => setTimeout(resolve, 1500));
     
+    // Use ilike for case-insensitive matching
     const { data, error } = await supabase
       .from('selected_students')
-      .select('*') // Select all fields temporarily for debugging
-      .eq('email', normalizedEmail);
-    
-    console.log('📊 Supabase response:', { data, error });
-    console.log('📝 Data length:', data?.length);
-    console.log('💾 Raw data:', JSON.stringify(data, null, 2));
+      .select('*')
+      .ilike('email', normalizedEmail);
     
     if (error) {
-      console.error('❌ Supabase error:', error);
       return { selected: false, error: error.message };
     }
     
-    const isSelected = data && data.length > 0;
-    console.log('✅ Final result - selected:', isSelected);
-    
-    return { selected: isSelected };
+    return { selected: data && data.length > 0 };
   } catch (error) {
-    console.error('💥 Selection check error:', error);
-    return { selected: false, error: 'Network error occurred' };
+    const errorMessage = typeof error === 'object' && error !== null && 'message' in error
+      ? (error as { message: string }).message
+      : 'An unexpected error occurred';
+    return { selected: false, error: errorMessage };
   }
 }
