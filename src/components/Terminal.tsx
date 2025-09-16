@@ -8,6 +8,7 @@ import { GraffitiText } from './GraffitiText';
 import { ConfettiEffect } from './ConfettiEffect';
 import { SIAM_JUIT_LOGO, SUCCESS_GRAFFITI, FAILURE_GRAFFITI, ERROR_404_GRAFFITI } from '../utils/asciiArt';
 import { WHATSAPP_INVITE_URL } from '../config/constants';
+import { WHATSAPP_INVITE_URL2 } from '../config/constants';
 import { Volume2, VolumeX } from 'lucide-react';
 
 export const Terminal: React.FC = () => {
@@ -118,8 +119,7 @@ export const Terminal: React.FC = () => {
     }
 
     // Failure state
-    if (outputStr === 'failure' || outputStr.startsWith('error:')) {
-      const isError = outputStr.startsWith('error:');
+    if (outputStr === 'failure') {
       return (
         <motion.div
           key={`failure-${index}`}
@@ -128,60 +128,104 @@ export const Terminal: React.FC = () => {
           animate={{ opacity: 1 }}
         >
           <GraffitiText 
-            text={isError ? ERROR_404_GRAFFITI : FAILURE_GRAFFITI} 
-            type={isError ? "error" : "failure"} 
+            text={FAILURE_GRAFFITI} 
+            type="failure" 
             className="mb-6" 
           />
           
           <motion.div
-            className={`bg-gradient-to-r ${isError ? 'from-yellow-800 to-yellow-900 border-yellow-500' : 'from-red-800 to-red-900 border-red-500'} border rounded-lg p-6 shadow-2xl`}
+            className="bg-gradient-to-r from-red-800 to-red-900 border-red-500 border rounded-lg p-6 shadow-2xl"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
             <div className="flex items-center space-x-2 mb-4">
               <span className="text-4xl">😢</span>
-              <span className={`${isError ? 'text-yellow-300' : 'text-red-300'} font-bold text-lg`}>
-                {isError ? 'SYSTEM ERROR' : 'BETTER LUCK NEXT TIME'}
+              <span className="text-red-300 font-bold text-lg">
+                BETTER LUCK NEXT TIME
               </span>
             </div>
             
-            <p className={`${isError ? 'text-yellow-200' : 'text-red-200'} mb-4`}>
-              {isError 
-                ? 'There was an issue checking your selection status. Please try again later.'
-                : "Don't worry! Keep improving your skills and try again in the next selection round."
-              }
+            <p className="text-red-200 mb-4">
+              Don't worry though! You will have a chance to try again. Join the updates (if you haven't) group for future opportunities.
             </p>
-            
-            <div className={`mt-4 text-sm ${isError ? 'text-yellow-300' : 'text-red-300'}`}>
+            <motion.a
+              href={WHATSAPP_INVITE_URL2}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Join WhatsApp Group →
+            </motion.a>
+            <div className="mt-4 text-sm text-red-300">
               💡 Tip: Stay active in college activities and maintain good academic performance!
             </div>
           </motion.div>
 
           {/* Rain effect for failure */}
-          {!isError && (
-            <div className="fixed inset-0 pointer-events-none z-30">
-              {[...Array(20)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-0.5 h-8 bg-blue-400 opacity-30"
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    top: -30,
-                  }}
-                  animate={{
-                    y: window.innerHeight + 50,
-                    opacity: [0.3, 0.6, 0.3],
-                  }}
-                  transition={{
-                    duration: Math.random() * 2 + 1,
-                    delay: Math.random() * 3,
-                    repeat: Infinity,
-                  }}
-                />
-              ))}
+          <div className="fixed inset-0 pointer-events-none z-30">
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-0.5 h-8 bg-blue-400 opacity-30"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: -30,
+                }}
+                animate={{
+                  y: window.innerHeight + 50,
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: Math.random() * 2 + 1,
+                  delay: Math.random() * 3,
+                  repeat: Infinity,
+                }}
+              />
+            ))}
+          </div>
+        </motion.div>
+      );
+    }
+
+    // Error state
+    if (outputStr.startsWith('error:')) {
+      return (
+        <motion.div
+          key={`error-${index}`}
+          className="my-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <GraffitiText 
+            text={ERROR_404_GRAFFITI} 
+            type="error" 
+            className="mb-6" 
+          />
+          
+          <motion.div
+            className="bg-gradient-to-r from-yellow-800 to-yellow-900 border-yellow-500 border rounded-lg p-6 shadow-2xl"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-4xl">😢</span>
+              <span className="text-yellow-300 font-bold text-lg">
+                SYSTEM ERROR
+              </span>
             </div>
-          )}
+            
+            <p className="text-yellow-200 mb-4">
+              There was an issue checking your selection status. Please try again later.
+            </p>
+            
+            <div className="mt-4 text-sm text-yellow-300">
+               That's on us.(Or maybe you're just late.)
+            </div>
+          </motion.div>
         </motion.div>
       );
     }
