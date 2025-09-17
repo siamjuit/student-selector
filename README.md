@@ -58,7 +58,7 @@ CREATE INDEX idx_selected_students_email ON selected_students(email);
 ### 2. Seed Demo Data
 
 ```sql
-INSERT INTO selected_students (email) VALUES ('221030303@juitsolan.in');
+INSERT INTO selected_students (email) VALUES ('231030069@juitsolan.in');
 ```
 
 ### 3. Configure Row Level Security (Recommended)

@@ -1,4 +1,5 @@
-export const WHATSAPP_INVITE_URL = import.meta.env.VITE_WHATSAPP_URL || "https://chat.whatsapp.com/your-invite-link-here";
+export const WHATSAPP_INVITE_URL = import.meta.env.VITE_WHATSAPP_URL || "https://chat.whatsapp.com/BunQWN2Dch12c9AaGyqhBw";
+export const WHATSAPP_INVITE_URL2 = import.meta.env.VITE_WHATSAPP_URL2 || "https://chat.whatsapp.com/BWsZr1RTn9AEoEg3qtnfmv";
 
 export const COMMANDS = {
   HELP: 'help',
@@ -6,7 +7,7 @@ export const COMMANDS = {
   AMISELECTED: 'amiselected',
 } as const;
 
-export const DEMO_EMAIL = "221030303@juitsolan.in";
+export const DEMO_EMAIL = "231030069@juitsolan.in";
 
 export const ANIMATION_TIMINGS = {
   typewriter: 0.05,
